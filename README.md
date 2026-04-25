@@ -1,7 +1,13 @@
-# Django Shop - Учебный проект
+# 🛍️ Django Shop
 
-Проект интернет-магазина на Django с Bootstrap.
+Интернет-магазин на Django. Учебный проект для демонстрации навыков работы с фреймворком.
 
-## Страницы
-- Главная (/)
-- Контакты (/contacts/)
+## Технологии
+- Python 3.12
+- Django 4.2
+- Bootstrap 5 (CDN)
+
+## Запуск
+```bash
+source venv/bin/activate
+python3 manage.py runserver
