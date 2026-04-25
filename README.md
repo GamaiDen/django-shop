@@ -1,2 +1,7 @@
-# Django Shop
-Учебный проект на Django + Bootstrap.
+# Django Shop - Учебный проект
+
+Проект интернет-магазина на Django с Bootstrap.
+
+## Страницы
+- Главная (/)
+- Контакты (/contacts/)
