@@ -1,14 +1,18 @@
-# 🛍️ Django Shop
+# Django Shop
 
-Интернет-магазин на Django. Учебный проект для демонстрации навыков работы с фреймворком.
+Интернет-магазин на Django.
 
-## Технологии
-- Python 3.12
-- Django 4.2
-- Bootstrap 5 (CDN)
+## Функциональность
+- Каталог товаров с CRUD
+- Блог с публикациями
+- Регистрация и авторизация пользователей
+- Валидация форм (запрещённые слова, цена)
+- Отправка email при регистрации
+- Защита CRUD через login_required
 
-## Запуск
+## Установка
 ```bash
-source venv/bin/activate
+pip install -r requirements.txt
+python3 manage.py migrate
 python3 manage.py runserver
 
