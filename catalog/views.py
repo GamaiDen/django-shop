@@ -4,13 +4,12 @@ from django.http import HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.cache import cache
-from .models import Product, Category
+from .models import Product
 from .forms import ProductForm
 from .services import get_products_by_category, get_product_detail
 
 
 class HomeView(ListView):
-    """Главная страница со списком опубликованных товаров."""
     model = Product
     template_name = 'catalog/home.html'
     context_object_name = 'products'
@@ -20,7 +19,6 @@ class HomeView(ListView):
 
 
 class ProductDetailView(DetailView):
-    """Детальная страница товара с кешированием."""
     model = Product
     template_name = 'catalog/product_detail.html'
     context_object_name = 'product'
@@ -31,7 +29,6 @@ class ProductDetailView(DetailView):
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
-    """Создание продукта."""
     model = Product
     form_class = ProductForm
     template_name = 'catalog/product_form.html'
@@ -43,7 +40,6 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
 
 class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    """Редактирование — только владелец или модератор."""
     model = Product
     form_class = ProductForm
     template_name = 'catalog/product_form.html'
@@ -58,7 +54,6 @@ class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    """Удаление — только владелец или модератор."""
     model = Product
     template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('home')
@@ -73,18 +68,20 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 class CategoryProductsView(ListView):
-    """Список продуктов в категории (кешируется)."""
     model = Product
     template_name = 'catalog/category_products.html'
     context_object_name = 'products'
 
     def get_queryset(self):
-        category_id = self.kwargs.get('category_id')
-        return get_products_by_category(category_id)
+        self.category, products = get_products_by_category(
+            category_id=self.kwargs.get('category_id'),
+            category_slug=self.kwargs.get('category_slug'),
+        )
+        return products
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['category'] = get_object_or_404(Category, pk=self.kwargs.get('category_id'))
+        context['category'] = self.category
         return context
 
 

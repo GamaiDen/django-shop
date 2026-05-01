@@ -8,6 +8,7 @@ urlpatterns = [
     path('product/create/', login_required(views.ProductCreateView.as_view()), name='product_create'),
     path('product/<int:pk>/edit/', login_required(views.ProductUpdateView.as_view()), name='product_update'),
     path('product/<int:pk>/delete/', login_required(views.ProductDeleteView.as_view()), name='product_delete'),
-    path('category/<int:category_id>/', views.CategoryProductsView.as_view(), name='category_products'),
+    path('category/<int:category_id>/', views.CategoryProductsView.as_view(), name='category_products_by_id'),
+    path('category/<slug:category_slug>/', views.CategoryProductsView.as_view(), name='category_products_by_slug'),
     path('contacts/', views.ContactsView.as_view(), name='contacts'),
 ]
